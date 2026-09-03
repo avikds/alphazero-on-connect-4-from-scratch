@@ -280,8 +280,11 @@ def masked_policy_logits(logits, mask):
     # masked_fill creates a new tensor, so the input logits are not modified.
     return logits.masked_fill(~mask_tensor, float("-inf"))
 
-# Step 24 - masked_log_softmax (not yet solved)
-# TODO: implement
+# Step 24 - masked_log_softmax
+def masked_log_softmax(logits, mask):
+    """Log-softmax of logits with illegal columns (mask=False) forced to -inf."""
+    masked_logits = masked_policy_logits(logits, mask)
+    return torch.log_softmax(masked_logits, dim=-1)
 
 # Step 25 - sample_action_from_policy (not yet solved)
 # TODO: implement
