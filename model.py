@@ -40,8 +40,10 @@ def column_full(board, column):
     """Return True if `column` has no empty rows left."""
     return column_top_row(board, column) == -1
 
-# Step 5 - valid_moves (not yet solved)
-# TODO: implement
+# Step 5 - valid_moves
+def valid_moves(board):
+    # Return all columns that are not full, from left to right.
+    return [column for column in range(7) if not column_full(board, column)]
 
 # Step 6 - four_in_a_row_horizontal (not yet solved)
 # TODO: implement
