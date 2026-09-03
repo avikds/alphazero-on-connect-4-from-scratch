@@ -971,6 +971,21 @@ def match_win_rate(agent_one, agent_two, num_matches, alternate_starts=True):
         "draws": draws,
     }
 
-# Step 57 - evaluate_against_random (not yet solved)
-# TODO: implement
+# Step 57 - evaluate_against_random
+def evaluate_against_random(net, num_matches, seed=None):
+    """Evaluate the greedy network agent against a reproducible random baseline."""
+    rng = np.random.default_rng(seed)
+
+    def greedy_agent(state, to_play):
+        return greedy_agent_action(net, state, to_play)
+
+    def random_agent(state, to_play):
+        return random_policy_action(state, to_play, rng=rng)
+
+    return match_win_rate(
+        greedy_agent,
+        random_agent,
+        num_matches,
+        alternate_starts=True,
+    )
 
