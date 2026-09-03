@@ -892,8 +892,18 @@ def train_loop(
 
     return history
 
-# Step 53 - random_policy_action (not yet solved)
-# TODO: implement
+# Step 53 - random_policy_action
+def random_policy_action(state, to_play, rng=None):
+    """Pick a uniformly random legal column on the given board."""
+    if rng is None:
+        rng = np.random.default_rng()
+
+    legal_actions = valid_moves(state)
+
+    if not legal_actions:
+        raise ValueError("No legal moves available")
+
+    return int(rng.choice(legal_actions))
 
 # Step 54 - greedy_agent_action (not yet solved)
 # TODO: implement
