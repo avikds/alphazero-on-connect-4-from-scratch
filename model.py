@@ -917,8 +917,27 @@ def greedy_agent_action(net, state, to_play):
         mask = action_mask(state)
         return greedy_action_from_policy(logits[0], mask)
 
-# Step 55 - play_one_match (not yet solved)
-# TODO: implement
+# Step 55 - play_one_match
+def play_one_match(agent_one, agent_two, starting_player=1):
+    """Play one full Connect-4 game between two agents and return the winner."""
+    board = make_empty_board()
+    to_play = starting_player
+    done = False
+    winner = 0
+
+    while not done:
+        if to_play == 1:
+            action = agent_one(board, to_play)
+        else:
+            action = agent_two(board, to_play)
+
+        board, done, winner, to_play = step_env(
+            board,
+            action,
+            to_play,
+        )
+
+    return int(winner)
 
 # Step 56 - match_win_rate (not yet solved)
 # TODO: implement
