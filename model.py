@@ -154,8 +154,14 @@ def other_player(player):
     """Return the opponent's player code."""
     return 2 if player == 1 else 1
 
-# Step 14 - step_env (not yet solved)
-# TODO: implement
+# Step 14 - step_env
+def step_env(board, column, player):
+    """Apply a move and return the resulting environment state."""
+    new_board = drop_piece(board, column, player)
+    done, winner = is_terminal(new_board)
+    next_player = other_player(player)
+
+    return new_board, done, winner, next_player
 
 # Step 15 - encode_board (not yet solved)
 # TODO: implement
