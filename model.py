@@ -131,8 +131,10 @@ def check_winner(board):
 
     return 0
 
-# Step 11 - board_is_full (not yet solved)
-# TODO: implement
+# Step 11 - board_is_full
+def board_is_full(board):
+    """Return True if every column is blocked at the top."""
+    return bool(np.all(board[0, :] != 0))
 
 # Step 12 - is_terminal (not yet solved)
 # TODO: implement
