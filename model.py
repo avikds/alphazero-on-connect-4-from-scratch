@@ -173,8 +173,11 @@ def encode_board(board, current_player):
 
     return np.stack([current_plane, opponent_plane], axis=0)
 
-# Step 16 - board_to_torch_tensor (not yet solved)
-# TODO: implement
+# Step 16 - board_to_torch_tensor
+def board_to_torch_tensor(board, current_player):
+    """Convert the encoded board to a batched float32 PyTorch tensor."""
+    encoded = encode_board(board, current_player)
+    return torch.from_numpy(encoded).unsqueeze(0).float()
 
 # Step 17 - init_conv_backbone (not yet solved)
 # TODO: implement
