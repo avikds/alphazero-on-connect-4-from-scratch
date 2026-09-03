@@ -77,8 +77,21 @@ def four_in_a_row_vertical(board):
 
     return 0
 
-# Step 8 - four_in_a_row_diagonal_down_right (not yet solved)
-# TODO: implement
+# Step 8 - four_in_a_row_diagonal_down_right
+def four_in_a_row_diagonal_down_right(board):
+    # Check every possible down-right group of four cells.
+    for row in range(board.shape[0] - 3):
+        for column in range(board.shape[1] - 3):
+            if (
+                board[row, column] != 0
+                and board[row, column]
+                == board[row + 1, column + 1]
+                == board[row + 2, column + 2]
+                == board[row + 3, column + 3]
+            ):
+                return int(board[row, column])
+
+    return 0
 
 # Step 9 - four_in_a_row_diagonal_up_right (not yet solved)
 # TODO: implement
