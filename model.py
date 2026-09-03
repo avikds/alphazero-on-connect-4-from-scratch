@@ -210,8 +210,14 @@ def init_policy_head(hidden_channels=16, num_columns=7):
         nn.Linear(hidden_channels * 6 * 7, num_columns),
     )
 
-# Step 19 - init_value_head (not yet solved)
-# TODO: implement
+# Step 19 - init_value_head
+def init_value_head(hidden_channels=16):
+    """Return an nn.Module mapping (B, hidden_channels, 6, 7) -> (B, 1) in (-1, 1)."""
+    return nn.Sequential(
+        nn.Flatten(),
+        nn.Linear(hidden_channels * 6 * 7, 1),
+        nn.Tanh(),
+    )
 
 # Step 20 - build_policy_value_net (not yet solved)
 # TODO: implement
