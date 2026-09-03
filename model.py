@@ -630,8 +630,22 @@ def policy_loss_cross_entropy(predicted_log_probs, target_policy):
     """Cross-entropy between MCTS target policy and network log-probs. Returns scalar tensor."""
     return -(target_policy * predicted_log_probs).sum(dim=-1).mean()
 
-# Step 45 - l2_regularization_loss (not yet solved)
-# TODO: implement
+# Step 45 - l2_regularization_loss
+def l2_regularization_loss(net):
+    """Return the sum of squared L2 norms over all trainable parameters."""
+    trainable_params = [
+        parameter
+        for parameter in net.parameters()
+        if parameter.requires_grad
+    ]
+
+    if not trainable_params:
+        return torch.tensor(0.0)
+
+    return sum(
+        (parameter ** 2).sum()
+        for parameter in trainable_params
+    )
 
 # Step 46 - combined_loss (not yet solved)
 # TODO: implement
