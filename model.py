@@ -61,8 +61,21 @@ def four_in_a_row_horizontal(board):
 
     return 0
 
-# Step 7 - four_in_a_row_vertical (not yet solved)
-# TODO: implement
+# Step 7 - four_in_a_row_vertical
+def four_in_a_row_vertical(board):
+    # Check every possible group of four consecutive rows in each column.
+    for column in range(board.shape[1]):
+        for row in range(board.shape[0] - 3):
+            if (
+                board[row, column] != 0
+                and board[row, column]
+                == board[row + 1, column]
+                == board[row + 2, column]
+                == board[row + 3, column]
+            ):
+                return int(board[row, column])
+
+    return 0
 
 # Step 8 - four_in_a_row_diagonal_down_right (not yet solved)
 # TODO: implement
