@@ -697,8 +697,22 @@ def encode_batch_states(boards, to_plays):
         np.stack(encoded_states, axis=0)
     ).float()
 
-# Step 48 - iterate_minibatches (not yet solved)
-# TODO: implement
+# Step 48 - iterate_minibatches
+def iterate_minibatches(buffer, batch_size, seed=None):
+    """Yield shuffled minibatches of step dicts of size <= batch_size."""
+    if batch_size <= 0:
+        raise ValueError("batch_size must be positive")
+
+    if seed is None:
+        rng = np.random.default_rng()
+    else:
+        rng = np.random.default_rng(seed)
+
+    indices = rng.permutation(len(buffer))
+
+    for start in range(0, len(buffer), batch_size):
+        batch_indices = indices[start:start + batch_size]
+        yield [buffer[i] for i in batch_indices]
 
 # Step 49 - training_step (not yet solved)
 # TODO: implement
