@@ -533,8 +533,16 @@ def mcts_choose_action(state, to_play, net, num_simulations, c_puct, temperature
 
     return int(action), policy
 
-# Step 39 - record_self_play_step (not yet solved)
-# TODO: implement
+# Step 39 - record_self_play_step
+def record_self_play_step(history, board, policy, to_play):
+    """Append one self-play observation to the game history."""
+    history.append({
+        "board": board.copy(),
+        "policy": policy.copy(),
+        "to_play": int(to_play),
+    })
+
+    return history
 
 # Step 40 - play_self_play_game (not yet solved)
 # TODO: implement
