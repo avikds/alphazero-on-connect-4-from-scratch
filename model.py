@@ -627,8 +627,15 @@ def value_loss_mse(predicted_values, target_values):
 
 # Step 44 - policy_loss_cross_entropy
 def policy_loss_cross_entropy(predicted_log_probs, target_policy):
-    """Cross-entropy between MCTS target policy and network log-probs. Returns scalar tensor."""
-    return -(target_policy * predicted_log_probs).sum(dim=-1).mean()
+    """Cross-entropy between MCTS target policy and network log-probs."""
+    # Avoid the undefined 0 * (-inf) operation for illegal moves.
+    safe_log_probs = torch.where(
+        target_policy > 0,
+        predicted_log_probs,
+        torch.zeros_like(predicted_log_probs),
+    )
+
+    return -(target_policy * safe_log_probs).sum(dim=-1).mean()
 
 # Step 45 - l2_regularization_loss
 def l2_regularization_loss(net):
