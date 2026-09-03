@@ -300,8 +300,11 @@ def sample_action_from_policy(logits, mask, temperature=1.0):
 
     return int(action.item())
 
-# Step 26 - greedy_action_from_policy (not yet solved)
-# TODO: implement
+# Step 26 - greedy_action_from_policy
+def greedy_action_from_policy(logits, mask):
+    """Return the argmax legal column index from masked policy logits."""
+    masked_logits = masked_policy_logits(logits, mask)
+    return int(torch.argmax(masked_logits, dim=-1).item())
 
 # Step 27 - make_mcts_node (not yet solved)
 # TODO: implement
