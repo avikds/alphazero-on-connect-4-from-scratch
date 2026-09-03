@@ -905,8 +905,17 @@ def random_policy_action(state, to_play, rng=None):
 
     return int(rng.choice(legal_actions))
 
-# Step 54 - greedy_agent_action (not yet solved)
-# TODO: implement
+# Step 54 - greedy_agent_action
+def greedy_agent_action(net, state, to_play):
+    """Return the highest-logit legal column from a single network forward pass."""
+    net.eval()
+
+    with torch.no_grad():
+        encoded_state = board_to_torch_tensor(state, to_play)
+        logits, _ = policy_value_forward(net, encoded_state)
+
+        mask = action_mask(state)
+        return greedy_action_from_policy(logits[0], mask)
 
 # Step 55 - play_one_match (not yet solved)
 # TODO: implement
