@@ -247,8 +247,10 @@ def build_policy_value_net(in_channels=2, hidden_channels=16, num_columns=7):
 
     return PolicyValueNet()
 
-# Step 21 - policy_value_forward (not yet solved)
-# TODO: implement
+# Step 21 - policy_value_forward
+def policy_value_forward(net, encoded_board):
+    """Run encoded_board (B,2,6,7) through net and return (logits, value)."""
+    return net(encoded_board)
 
 # Step 22 - action_mask (not yet solved)
 # TODO: implement
