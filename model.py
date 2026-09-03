@@ -507,8 +507,31 @@ def visit_count_policy(root, temperature=1.0):
 
     return powered / total
 
-# Step 38 - mcts_choose_action (not yet solved)
-# TODO: implement
+# Step 38 - mcts_choose_action
+def mcts_choose_action(state, to_play, net, num_simulations, c_puct, temperature=1.0):
+    """Run MCTS and sample an action from the resulting visit-count policy."""
+    root = run_mcts(
+        state,
+        to_play,
+        net,
+        num_simulations,
+        c_puct,
+    )
+
+    policy = visit_count_policy(root, temperature)
+
+    # Use PyTorch for sampling so torch.manual_seed() controls determinism.
+    policy_tensor = torch.as_tensor(
+        policy,
+        dtype=torch.float32,
+    )
+
+    action = torch.multinomial(
+        policy_tensor,
+        num_samples=1,
+    ).item()
+
+    return int(action), policy
 
 # Step 39 - record_self_play_step (not yet solved)
 # TODO: implement
