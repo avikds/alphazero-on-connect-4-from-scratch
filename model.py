@@ -714,8 +714,73 @@ def iterate_minibatches(buffer, batch_size, seed=None):
         batch_indices = indices[start:start + batch_size]
         yield [buffer[i] for i in batch_indices]
 
-# Step 49 - training_step (not yet solved)
-# TODO: implement
+# Step 49 - training_step
+def training_step(
+    net,
+    optimizer,
+    minibatch,
+    policy_weight=1.0,
+    value_weight=1.0,
+    l2_weight=1e-4,
+):
+    """Run one optimizer update on a self-play minibatch."""
+    boards = [step["board"] for step in minibatch]
+    to_plays = [step["to_play"] for step in minibatch]
+    target_policies = [step["policy"] for step in minibatch]
+    target_values = [step["value"] for step in minibatch]
+
+    # Encode the batch and move targets to the same device as the network.
+    inputs = encode_batch_states(boards, to_plays)
+    device = next(net.parameters()).device
+    inputs = inputs.to(device)
+
+    target_policy = torch.as_tensor(
+        np.stack(target_policies, axis=0),
+        dtype=torch.float32,
+        device=device,
+    )
+    target_values = torch.as_tensor(
+        target_values,
+        dtype=torch.float32,
+        device=device,
+    )
+
+    # Forward pass through the policy-value network.
+    logits, predicted_values = policy_value_forward(net, inputs)
+
+    # Build the legality mask for each board and mask the policy logits.
+    masks = np.stack(
+        [action_mask(board) for board in boards],
+        axis=0,
+    )
+    masked_logits = masked_policy_logits(logits, masks)
+
+    predicted_log_probs = torch.log_softmax(masked_logits, dim=-1)
+
+    # Value head returns shape (B, 1); targets are shape (B,).
+    predicted_values = predicted_values.squeeze(-1)
+
+    total_loss, parts = combined_loss(
+        predicted_log_probs,
+        predicted_values,
+        target_policy,
+        target_values,
+        net,
+        policy_weight,
+        value_weight,
+        l2_weight,
+    )
+
+    optimizer.zero_grad()
+    total_loss.backward()
+    optimizer.step()
+
+    return {
+        "total": float(total_loss.item()),
+        "policy": float(parts["policy"].item()),
+        "value": float(parts["value"].item()),
+        "l2": float(parts["l2"].item()),
+    }
 
 # Step 50 - training_epoch (not yet solved)
 # TODO: implement
