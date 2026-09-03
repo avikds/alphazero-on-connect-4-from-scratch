@@ -68,6 +68,17 @@ python scaffold.py
 - [x] **56.** match_win_rate
 - [x] **57.** evaluate_against_random
 
----
+## Results
 
-Built on Deep-ML.
+```
+Empty board shape: (6, 7) dtype: int64
+Legal moves after two drops: [0, 1, 2, 3, 4, 5, 6]
+Terminal? (False, 0)
+Policy-value net params: 3432
+Policy logits shape: (1, 7) value shape: (1, 1)
+MCTS picked column 3; pi = [0.143, 0.143, 0.143, 0.143, 0.143, 0.143, 0.143]
+Self-play buffer size: 48 steps
+Epoch 1 losses: {'total': nan, 'policy': nan, 'value': 1.0192, 'l2': 8.1242}
+Outer-iter losses: {'total': nan, 'policy': nan, 'value': 0.9977, 'l2': 7.917}
+Greedy-net vs random: {'wins': 3, 'losses': 3, 'draws': 0}
+```
