@@ -439,6 +439,11 @@ def run_one_simulation(root, net, c_puct):
     """Run one full PUCT MCTS simulation from the root."""
     leaf = select_leaf(root, c_puct)
 
+    # Nodes created by make_mcts_node() do not initially carry this key.
+    # Treat a missing flag as "not expanded".
+    if "is_expanded" not in leaf:
+        leaf["is_expanded"] = False
+
     board = leaf["board"]
     to_play = leaf["to_play"]
 
