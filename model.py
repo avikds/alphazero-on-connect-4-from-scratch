@@ -45,8 +45,21 @@ def valid_moves(board):
     # Return all columns that are not full, from left to right.
     return [column for column in range(7) if not column_full(board, column)]
 
-# Step 6 - four_in_a_row_horizontal (not yet solved)
-# TODO: implement
+# Step 6 - four_in_a_row_horizontal
+def four_in_a_row_horizontal(board):
+    # Check every possible group of four consecutive columns in each row.
+    for row in range(board.shape[0]):
+        for column in range(board.shape[1] - 3):
+            if (
+                board[row, column] != 0
+                and board[row, column]
+                == board[row, column + 1]
+                == board[row, column + 2]
+                == board[row, column + 3]
+            ):
+                return int(board[row, column])
+
+    return 0
 
 # Step 7 - four_in_a_row_vertical (not yet solved)
 # TODO: implement
