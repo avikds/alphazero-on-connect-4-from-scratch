@@ -862,8 +862,35 @@ def self_play_iteration(
         "losses": losses,
     }
 
-# Step 52 - train_loop (not yet solved)
-# TODO: implement
+# Step 52 - train_loop
+def train_loop(
+    net,
+    optimizer,
+    num_iterations,
+    num_games,
+    num_simulations,
+    c_puct,
+    batch_size,
+    num_epochs=1,
+    temperature=1.0,
+):
+    """Run the outer AlphaZero training loop."""
+    history = []
+
+    for _ in range(num_iterations):
+        result = self_play_iteration(
+            net,
+            optimizer,
+            num_games,
+            num_simulations,
+            c_puct,
+            batch_size,
+            num_epochs,
+            temperature,
+        )
+        history.append(result)
+
+    return history
 
 # Step 53 - random_policy_action (not yet solved)
 # TODO: implement
