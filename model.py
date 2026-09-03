@@ -782,8 +782,49 @@ def training_step(
         "l2": float(parts["l2"].item()),
     }
 
-# Step 50 - training_epoch (not yet solved)
-# TODO: implement
+# Step 50 - training_epoch
+def training_epoch(
+    net,
+    optimizer,
+    buffer,
+    batch_size,
+    policy_weight=1.0,
+    value_weight=1.0,
+    l2_weight=1e-4,
+    seed=None,
+):
+    """Run one full shuffled pass over the self-play buffer."""
+    totals = {
+        "total": 0.0,
+        "policy": 0.0,
+        "value": 0.0,
+        "l2": 0.0,
+    }
+
+    num_batches = 0
+
+    for minibatch in iterate_minibatches(buffer, batch_size, seed=seed):
+        batch_losses = training_step(
+            net,
+            optimizer,
+            minibatch,
+            policy_weight=policy_weight,
+            value_weight=value_weight,
+            l2_weight=l2_weight,
+        )
+
+        for key in totals:
+            totals[key] += batch_losses[key]
+
+        num_batches += 1
+
+    if num_batches == 0:
+        return totals
+
+    return {
+        key: value / num_batches
+        for key, value in totals.items()
+    }
 
 # Step 51 - self_play_iteration (not yet solved)
 # TODO: implement
