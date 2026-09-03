@@ -420,8 +420,19 @@ def expand_node(node, priors):
     # Mark this node as expanded.
     node["is_expanded"] = True
 
-# Step 34 - backup_value (not yet solved)
-# TODO: implement
+# Step 34 - backup_value
+def backup_value(leaf, value):
+    # Propagate the value from the leaf back to the root,
+    # flipping the sign at each level because the players alternate.
+    node = leaf
+    current_value = value
+
+    while node is not None:
+        node["visit_count"] += 1
+        node["value_sum"] += current_value
+
+        current_value = -current_value
+        node = node["parent"]
 
 # Step 35 - run_one_simulation (not yet solved)
 # TODO: implement
